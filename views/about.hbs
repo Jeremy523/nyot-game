@@ -1,13 +1,98 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset='utf-8'>
-		<title>Some Website</title>
-	</head>
-	<body>
-		{{> header}}
-		<p>Some text here</p>
+<head>
+	<title>About Us</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="TheProject.css">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Technically Late</a>
+    </div>
 
-		{{> footer}}
-	</body>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      	<li><a href="/gameInfo">Game Info
+		</a></li>
+      	<li class="active"><a href="">About Us</a></li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Signup <i class="fa fa-user-plus" aria-hidden="true"></i></a></li>
+        <li><a href="#">Login <i class="fa fa-user" aria-hidden="true"></i></a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+	<div class="container">
+  <h3> Introducing Us! </h3>
+		<div class="row">
+      <div class="col-lg-3">
+        <div id="content">
+          <h3> Kevin Chiu</h3>
+          <p> 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pharetra id turpis a sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tempor mattis velit eget auctor. Ut rutrum nisl lacus, sed ullamcorper elit porttitor a. Morbi a pharetra mi. Fusce vitae sapien eu massa malesuada tempor. Integer at ipsum tortor.
+
+</p>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div id="content">
+<!--           <img src="">
+ -->          <h3> Raven </h3>
+          <p>Nunc ut lobortis massa. Pellentesque eleifend, tortor non facilisis dignissim, ante urna consequat elit, a porta massa ligula id nisl. Nam mollis sollicitudin leo, eget aliquam erat efficitur ac. Sed tincidunt euismod lectus, ut pulvinar dui vestibulum in. Phasellus molestie augue leo, eget mattis eros ultrices at. Duis fringilla nulla ligula, non dapibus nibh ornare at. Maecenas et massa quis mauris rutrum finibus non a nulla. Fusce felis velit, laoreet eget orci vel, suscipit ultrices lacus. Suspendisse vel odio at lacus tristique efficitur non et risus. In auctor accumsan neque finibus gravida. Pellentesque eget auctor tortor. Cras molestie mauris eget imperdiet rutrum. Nam sed erat ante.</p>
+          <hr class="BiographyLine">
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div id="content">
+          <h3>Jeremy De La Cruz</h3>
+          <p> Quisque vulputate nibh in nulla lobortis gravida. In blandit et eros a tincidunt. Suspendisse potenti. Integer sed hendrerit dui, eget auctor nisl. Donec sed convallis nulla. Aliquam nunc ligula, iaculis id eros ac, laoreet molestie justo. Mauris convallis, magna vel eleifend dignissim, tortor eros luctus sem, lobortis consequat neque enim at quam. Mauris eu lorem tristique elit condimentum lobortis non ut mi. </p>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div id="content">
+          <h3>Messiah</h3>
+          <p>Maecenas nec sem vestibulum magna lacinia volutpat. Donec at ligula mattis, tincidunt ex vestibulum, auctor est. Pellentesque vel vulputate eros. Pellentesque vitae rhoncus dui. Etiam tincidunt lacus ex. Nam tristique tempor nisl non elementum. Nam commodo scelerisque pulvinar. Morbi quis nunc ac erat laoreet tempor. Nunc pulvinar dictum turpis vel porta. Cras at massa commodo, finibus ipsum id, placerat leo. Nulla eget odio porta, venenatis ligula quis, maximus dolor. Morbi luctus maximus mi, eu finibus justo posuere non. Nullam sed rutrum turpis, at egestas nisi.</p>
+        </div>
+      </div>
+		</div>
+	</div>
+  </div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <div class="navbar-header">
+            <span class="navbar-brand"> Ready to Play?   
+            <button class="btn btn-default btn-sm" onclick="location.href='/game'"> <i class="fa fa-gamepad" aria-hidden="true"></i>
+            Play the Game!
+            </button> 
+            </span>
+        </div>
+
+        <p class="navbar-text navbar-right">company &copy; 2017</p>
+    </div>
+</nav>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+  	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  	crossorigin="anonymous"></script>
+
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>$();</script>
+</body>
 </html>

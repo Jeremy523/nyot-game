@@ -47,7 +47,7 @@ if (MAINTENANCE) {
 }
 
 // using a static directory instead of handlers
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/static'));
 
 // handlers galore!
 app.get('/', (req, res) => {
@@ -65,15 +65,21 @@ app.get('/about', (req, res) => {
 
 app.get('/game', (req, res) => {
 	res.render('game.hbs', {
-		pageTitle: 'Personal Projects'
+		pageTitle: 'The Game'
 	});
 });
 
-app.get('/bad', (req, res) => {
-	res.send({
-		errorMsg: 'ERROR: Unable to handle request'
+app.get('/gameInfo', (req, res) => {
+	res.render('gameInfo.hbs', {
+		pageTitle: 'The Game'
 	});
 });
+
+// app.get('/bad', (req, res) => {
+// 	res.send({
+// 		errorMsg: 'ERROR: Unable to handle request'
+// 	});
+// });
 
 app.listen(PORT, () => {
 	console.log(`Server is up on port ${PORT}`);
