@@ -52,26 +52,29 @@ app.use(express.static(__dirname + '/static'));
 // handlers galore!
 app.get('/', (req, res) => {
 	res.render('home.hbs', {
-		pageTitle: 'Home',
-		welcomeMessage: 'Welcome!'
+		aboutActive: '',
+		gameInfoActive: ''
 	});
 });
 
 app.get('/about', (req, res) => {
 	res.render('about.hbs', {
-		pageTitle: 'About the Team'
+		aboutActive: 'active',
+		gameInfoActive: ''
 	});
 });
 
 app.get('/game', (req, res) => {
 	res.render('game.hbs', {
-		pageTitle: 'The Game'
+		aboutActive: '',
+		gameInfoActive: ''
 	});
 });
 
 app.get('/gameInfo', (req, res) => {
 	res.render('gameInfo.hbs', {
-		pageTitle: 'The Game'
+		aboutActive: '',
+		gameInfoActive: 'active'
 	});
 });
 
