@@ -60,21 +60,32 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
 	res.render('about.hbs', {
 		aboutActive: 'active',
-		gameInfoActive: ''
+		gameInfoActive: '',
+		gameProcessActive: ''
 	});
 });
 
 app.get('/game', (req, res) => {
 	res.render('game.hbs', {
 		aboutActive: '',
-		gameInfoActive: ''
+		gameInfoActive: '',
+		gameProcessActive: ''
 	});
 });
 
 app.get('/gameInfo', (req, res) => {
 	res.render('gameInfo.hbs', {
 		aboutActive: '',
-		gameInfoActive: 'active'
+		gameInfoActive: 'active',
+		gameProcessActive: ''
+	});
+});
+
+app.get('/gameProcess', (req, res) => {
+	res.render('gameProcess.hbs', {
+		aboutActive: '',
+		gameInfoActive: '',
+		gameProcessActive: 'active'
 	});
 });
 

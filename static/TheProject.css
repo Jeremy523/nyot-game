@@ -1,16 +1,17 @@
 #content {
 	text-align: center;
-	padding-top: 25%;
+	padding-top: 5%;
 	text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
 				 0px 8px 13px rgba(0,0,0,0.1),
 				 0px 18px 23px rgba(0,0,0,0.1); 
 }
 
-h3, h4 {
+h2, h3, h4 {
 	text-align: center;
 	text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
 				 0px 8px 13px rgba(0,0,0,0.1),
 				 0px 18px 23px rgba(0,0,0,0.1); 
+				 
 }
 body {
 	background: url("https://images.unsplash.com/photo-1494666460509-7a1bae5b84ad?dpr=2&auto=compress,format&fit=crop&w=767&h=511&q=80&cs=tinysrgb&crop=");
@@ -42,6 +43,22 @@ hr {
 	width: 400px;
 	border-top: 1px solid #f8f8f8;
 	border-bottom: 1px solid rgba(0,0,0,0,2);
+}
+
+.leftLine {
+	width: 400px;
+	border-top: 1px solid #f8f8f8;
+	border-bottom: 1px solid rgba(0,0,0,0,2);
+	margin-left: 0px;
+	margin-top: 0px;
+}
+
+.rightLine {
+	width: 400px;
+	border-top: 1px solid #f8f8f8;
+	border-bottom: 1px solid rgba(0,0,0,0,2);
+	margin-right: 0px;
+	margin-top: 0px;
 }
 
 /*div {
@@ -79,4 +96,20 @@ hr {
     padding-right: 5px;
     margin: auto;
     border-radius: 15px;
+}
+
+.toLeft{
+	text-align: left;
+	text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+				 0px 8px 13px rgba(0,0,0,0.1),
+				 0px 18px 23px rgba(0,0,0,0.1); 
+}
+
+.toRight{
+	text-align: right;
+	text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+				 0px 8px 13px rgba(0,0,0,0.1),
+				 0px 18px 23px rgba(0,0,0,0.1); 
+	width: 100%;
+	height: 100%;
 }

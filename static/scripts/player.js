@@ -75,7 +75,13 @@ function PlayerObject(width, height, color, xPos, yPos) {
                         
                 this.y = platforms[i].top - this.height;
                 this.cumulativeGrav = 0;
-                return true;
+                
+                if (platforms[i].isTrampoline) {
+                    this.cumulativeGrav = JUMP_STRENGTH * 2;
+                } else {
+                    return true;
+                }
+                
                 
             }
             

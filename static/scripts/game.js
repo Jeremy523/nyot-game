@@ -1,8 +1,5 @@
 /* global gameCamera PlayerObject buildMap fromBottomOfCanvas */
 
-// TODO: Create a camera view and implement camera scrolling (following the player around the map)
-// TODO: Implement RequestAnimationFrame as opposed to the time interval (?)
-
 // GLOBAL VARIABLES
 var player; // the player
 var gameCanvas; // the actual element that will contain the game itself
@@ -15,9 +12,17 @@ var GAMEOVER = false;
 var platforms = [];
 var facts = [];
 
+var images = {
+	platform1: '/assets/platforms/metalPlatform.png',
+	platform2: '/assets/platforms/metalPlatformWire.png',
+	platform3: '/assets/platforms/metalPlatformWireAlt.png',
+	
+	trampoline: '/assets/platforms/beamBoltsNarrow.png'
+};
+
 
 // prevents users from just scrolling inside the canvas
-if(window.addEventListener){ // Firefox only
+if(window.addEventListener) { // Firefox only
     window.addEventListener("DOMMouseScroll", function(e) {e.preventDefault()}, true);
 }
 window.onscroll = function(e){e.preventDefault()};
@@ -61,7 +66,7 @@ function initializeGameWindow() {
 }
 
 // platform object
-function Platform(width, height, color, xPos, yPos) {
+function Platform(width, height, color, xPos, yPos, isTrampoline) {
     this.width = width;
     this.height = height;
     this.color = color;
@@ -71,6 +76,7 @@ function Platform(width, height, color, xPos, yPos) {
     this.left = this.x;
     this.bottom = this.y + this.height;
     this.top = this.y;
+    this.isTrampoline = isTrampoline || false;
 }
 
 function FactObject(xPos, yPos, fact) {
@@ -96,8 +102,11 @@ function initializePrototypes() {
     
     Platform.prototype.update = function() {
         var ctx = gameCanvas.context;
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // ctx.fillStyle = this.color;
+        // ctx.fillRect(this.x, this.y, this.width, this.height);
+        var imgObj = new Image();
+        imgObj.src = images.platform1;
+        ctx.drawImage(imgObj, this.x, this.y, this.width, this.height*3.5);
     };
     
     FactObject.prototype.update = function() {
