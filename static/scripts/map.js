@@ -1,24 +1,57 @@
 /* global platforms Platform facts FactObject gameCanvas */
 
 function buildMap() {
-    //                        width, height       x,            y,          isTrampoline (empty === false)
-    platforms.push(new Platform(100, 10, "platform1", 160, fromBottomOfCanvas(90)));
-    platforms.push(new Platform(100, 10, "platform1", 400, fromBottomOfCanvas(165)));
+    // LEVEL 1
     
-    platforms.push(new Platform(100, 10, "platform1", 600, fromBottomOfCanvas(250)));
-    platforms.push(new Platform(100, 10, "platform1", 380, fromBottomOfCanvas(330)));
+    var FLOOR_HEIGHT = 95;
     
-    platforms.push(new Platform(50, 10, "platform1", 192, fromBottomOfCanvas(420)));
+    var mapPlatforms = [
+        createTrampoline(50, 10, 850, 10),
+        createPlatform1(600, 20, 200, FLOOR_HEIGHT*4),
+        createPlatform1(225, 20, 200, FLOOR_HEIGHT*5),
+        createPlatform1(225, 20, 575, FLOOR_HEIGHT*5)
+    ];
     
-    // trampoline
-    platforms.push(new Platform(50, 10, "trampoline", 136, fromBottomOfCanvas(200), true));
+    var mapFacts = [
+        createFact(300, FLOOR_HEIGHT*4, "Fact!")
+    ];
     
-                            // x,       y,                   fact
-    facts.push(new FactObject(400, fromBottomOfCanvas(10), "Fact #1"));
-    facts.push(new FactObject(450, fromBottomOfCanvas(10), "Fact #2"));
-    facts.push(new FactObject(500, fromBottomOfCanvas(10), "Fact #3"));
+    for (var i = 0; i < mapPlatforms.length; i++) {
+        if (typeof mapPlatforms[i] === 'object' && false) {
+            // for each key value pair, push the pair
+        } else platforms.push(mapPlatforms[i]);
+    }
+    
+    for (var j = 0; j < mapFacts.length; j++) {
+        facts.push(mapFacts[j]);
+    }
+    
 }
 
 function fromBottomOfCanvas(px) {
     return gameCanvas.canvas.height - px; 
+}
+
+function createPlatform1(width, height, x, y) {
+    return new Platform(width, height, "platform1", x, fromBottomOfCanvas(y));
+}
+
+function createPlatform2(width, height, x, y) {
+    return new Platform(width, height, "platform2", x, fromBottomOfCanvas(y));
+}
+
+function createPlatform3(width, height, x, y) {
+    return new Platform(width, height, "platform3", x, fromBottomOfCanvas(y));
+}
+
+function createTrampoline(width, height, x, y) {
+    return new Platform(width, height, "trampoline", x, fromBottomOfCanvas(y), true);
+}
+
+function createFact(x, y, msg) {
+    return new FactObject(x, fromBottomOfCanvas(y + 12), msg);
+}
+
+function createFloorWithGap(floorHeight, gapWidth) {
+    return;
 }

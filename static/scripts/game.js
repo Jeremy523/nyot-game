@@ -11,7 +11,7 @@ var GAMEOVER = false;
 var FPS = 50;
 
 // we have 10 images
-var totalResources = 8;
+var totalResources;
 var numResourcesLoaded = 0;
 
 var platforms = [];
@@ -29,7 +29,10 @@ function loadImages() {
         "platforms/platform1",
         "platforms/platform2",
         "platforms/platform3",
+        "items/fact"
     ];
+    
+    totalResources = imageSources.length;
     
     for (var i = 0; i < imageSources.length; i++)
         loadImage(imageSources[i]);
@@ -100,9 +103,6 @@ function initializeGameWindow() {
 function Platform(width, height, src, xPos, yPos, isTrampoline) {
     this.width = width;
     this.height = height;
-    //this.color = color;
-    //this.image = new Image(width, height);
-    //this.image.src = images[src];
     this.src = src;
     this.ctx = gameCanvas.context;
     this.x = xPos;
@@ -123,7 +123,6 @@ function FactObject(xPos, yPos, fact) {
     this.left = this.x;
     this.bottom = this.y + this.height;
     this.top = this.y;
-    this.color = "gold";
     this.ctx = gameCanvas.context;
     this.fact = fact;
 }
@@ -131,9 +130,6 @@ function FactObject(xPos, yPos, fact) {
 // sets up the methods in the object's parent, so each object doesn't need its own copy of it
 function initializePrototypes() {
     PlayerObject.prototype.update = function() {
-        // this.ctx.fillStyle = "red";
-        // this.ctx.fillRect(this.x, this.y, this.width, this.height);
-        // standing = 67 196 66 92
         
         var sprite = "player/";
         
@@ -173,8 +169,17 @@ function initializePrototypes() {
     };
     
     FactObject.prototype.update = function() {
-        this.ctx.fillStyle = this.color;
-        this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        var sprite = "items/fact";
+        
+        var ctx = gameCanvas.context;
+        
+        ctx.drawImage(
+            images[sprite], 
+            this.x - this.width*1.5, 
+            this.y - this.height*1.5, 
+            this.width*4, 
+            this.height*4
+        );
     };
 }
 
@@ -186,10 +191,12 @@ function updateGame() {
         player.move();
         player.newPos();
         player.update();
+        
         // platforms
         for(var i = 0; i < platforms.length; i++) {
         	platforms[i].update();
         }
+        
         // facts
         for(var j = 0; j < facts.length; j++) {
             facts[j].update();
