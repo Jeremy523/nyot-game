@@ -17,7 +17,24 @@ var images = {
 	platform2: '/assets/platforms/metalPlatformWire.png',
 	platform3: '/assets/platforms/metalPlatformWireAlt.png',
 	
-	trampoline: '/assets/platforms/beamBoltsNarrow.png'
+	trampoline: '/assets/platforms/beamBoltsNarrow.png',
+	
+	playerSprites: {
+	    stand: '/assets/player/p1_stand.png',
+	    walk1: '/assets/player/p1_stand.png',
+	    walk2: '/assets/player/p1_stand.png',
+	    walk3: '/assets/player/p1_stand.png',
+	    walk4: '/assets/player/p1_stand.png',
+	    walk5: '/assets/player/p1_stand.png',
+	    walk6: '/assets/player/p1_stand.png',
+	    walk7: '/assets/player/p1_stand.png',
+	    walk8: '/assets/player/p1_stand.png',
+	    walk9: '/assets/player/p1_stand.png',
+	    walk10: '/assets/player/p1_stand.png',
+	    walk11: '/assets/player/p1_stand.png',
+	    jump: '/assets/player/p1_stand.png',
+	    duck: '/assets/player/p1_stand.png'
+	}
 };
 
 
@@ -31,8 +48,8 @@ window.onscroll = function(e){e.preventDefault()};
 function startGame() {
     initializeGameWindow();
     initializePrototypes();
-    //                        width, height, color, xPos, yPos
-    player = new PlayerObject(20, 40, "red", 50, fromBottomOfCanvas(0));
+    //                        width, height, imageObj, xPos, yPos
+    player = new PlayerObject(40, 50, new Image(), 50, fromBottomOfCanvas(0));
     buildMap();
 }
 
@@ -66,10 +83,12 @@ function initializeGameWindow() {
 }
 
 // platform object
-function Platform(width, height, color, xPos, yPos, isTrampoline) {
+function Platform(width, height, src, xPos, yPos, isTrampoline) {
     this.width = width;
     this.height = height;
-    this.color = color;
+    //this.color = color;
+    this.image = new Image(width, height);
+    this.image.src = images[src];
     this.x = xPos;
     this.y = yPos;
     this.right = this.x + this.width;
@@ -95,18 +114,30 @@ function FactObject(xPos, yPos, fact) {
 // sets up the methods in the object's parent, so each object doesn't need its own copy of it
 function initializePrototypes() {
     PlayerObject.prototype.update = function() {
-        var ctx = gameCanvas.context;
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // this.ctx.fillStyle = "red";
+        // this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        // standing = 67 196 66 92
+        
+        this.image.src = this.sprites.stand;
+        
+        this.ctx.drawImage(
+            this.image, 
+            this.x, 
+            this.y, 
+            this.width, 
+            this.height
+        );
     }
     
     Platform.prototype.update = function() {
         var ctx = gameCanvas.context;
-        // ctx.fillStyle = this.color;
-        // ctx.fillRect(this.x, this.y, this.width, this.height);
-        var imgObj = new Image();
-        imgObj.src = images.platform1;
-        ctx.drawImage(imgObj, this.x, this.y, this.width, this.height*3.5);
+        ctx.drawImage(
+            this.image, 
+            this.x, 
+            (this.isTrampoline) ? this.y - this.height/2 : this.y, 
+            this.width, 
+            this.height*3.5
+        );
     };
     
     FactObject.prototype.update = function() {

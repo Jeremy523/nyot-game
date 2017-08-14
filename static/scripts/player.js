@@ -1,13 +1,14 @@
-/* global gameCanvas gameCamera GRAVITY MOVE_SPEED JUMP_STRENGTH platforms facts TERMINAL_VELOCITY */
+/* global gameCanvas gameCamera GRAVITY MOVE_SPEED JUMP_STRENGTH platforms facts TERMINAL_VELOCITY images */
 
 // PLAYER CLASS
-function PlayerObject(width, height, color, xPos, yPos) {
+function PlayerObject(width, height, image, xPos, yPos) {
     this.width = width;
     this.height = height;
     this.speedX = 0; // displacement X
     this.speedY = 0; // displacement Y
     this.cumulativeGrav = 0; // total gravity buildup
-    this.color = color;
+    this.image = image;
+    this.sprites = images.playerSprites;
     this.x = xPos;
     this.y = yPos;
     this.right = this.x + this.width;
@@ -15,7 +16,9 @@ function PlayerObject(width, height, color, xPos, yPos) {
     this.bottom = this.y + this.height;
     this.top = this.y;
     
+    this.ctx = gameCanvas.context;
     this.facingRight = true;
+    this.moving = false;
     
     this.factInventory = [];
     

@@ -2,16 +2,16 @@
 
 function buildMap() {
     //                        width, height       x,            y,          isTrampoline (empty === false)
-    platforms.push(new Platform(100, 10, "blue", 160, fromBottomOfCanvas(90)));
-    platforms.push(new Platform(100, 10, "green", 400, fromBottomOfCanvas(165)));
+    platforms.push(new Platform(100, 10, "platform1", 160, fromBottomOfCanvas(90)));
+    platforms.push(new Platform(100, 10, "platform1", 400, fromBottomOfCanvas(165)));
     
-    platforms.push(new Platform(100, 10, "purple", 600, fromBottomOfCanvas(250)));
-    platforms.push(new Platform(100, 10, "orange", 380, fromBottomOfCanvas(330)));
+    platforms.push(new Platform(100, 10, "platform1", 600, fromBottomOfCanvas(250)));
+    platforms.push(new Platform(100, 10, "platform1", 380, fromBottomOfCanvas(330)));
     
-    platforms.push(new Platform(50, 10, "brown", 192, fromBottomOfCanvas(420)));
+    platforms.push(new Platform(50, 10, "platform1", 192, fromBottomOfCanvas(420)));
     
     // trampoline
-    platforms.push(new Platform(50, 10, "gray", 136, fromBottomOfCanvas(200), true));
+    platforms.push(new Platform(50, 10, "trampoline", 136, fromBottomOfCanvas(200), true));
     
                             // x,       y,                   fact
     facts.push(new FactObject(400, fromBottomOfCanvas(10), "Fact #1"));

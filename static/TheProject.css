@@ -13,6 +13,7 @@ h2, h3, h4 {
 				 0px 18px 23px rgba(0,0,0,0.1); 
 				 
 }
+
 body {
 	background: url("https://images.unsplash.com/photo-1494666460509-7a1bae5b84ad?dpr=2&auto=compress,format&fit=crop&w=767&h=511&q=80&cs=tinysrgb&crop=");
 	/*small as possible while still covering the entire width/height of screen - stretches until fit*/
@@ -22,6 +23,7 @@ body {
 	color: white;
 	font-family: Nunito;
 }
+
 html {
 	height: 100%;
 }
@@ -96,6 +98,10 @@ hr {
     padding-right: 5px;
     margin: auto;
     border-radius: 15px;
+}
+
+canvas {
+	background-color: black;
 }
 
 .toLeft{

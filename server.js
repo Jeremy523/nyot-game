@@ -4,8 +4,6 @@ const fs = require('fs');
 
 // heroku will set an env PORT value
 const PORT = process.env.PORT || 3000;
-// set to true to route traffic to maintenance page
-const MAINTENANCE = false;
 
 var app = express();
 
