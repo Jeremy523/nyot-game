@@ -7,8 +7,8 @@ function PlayerObject(width, height, image, xPos, yPos) {
     this.speedX = 0; // displacement X
     this.speedY = 0; // displacement Y
     this.cumulativeGrav = 0; // total gravity buildup
-    this.image = image;
-    this.sprites = images.playerSprites;
+    //this.image = image;
+    //this.sprites = images.playerSprites;
     this.x = xPos;
     this.y = yPos;
     this.right = this.x + this.width;
@@ -58,8 +58,9 @@ function PlayerObject(width, height, image, xPos, yPos) {
     // obstacle is on top of player
     this.crashTop = function() {
         for (var i = 0; i < platforms.length; i++) {
-            if (this.top <= platforms[i].bottom && this.top > platforms[i].top && this.withinWidth(platforms[i])) {
-                //console.log("crash top");
+            if ((this.top <= platforms[i].bottom || this.top - this.cumulativeGrav <= platforms[i].bottom) && 
+                (this.top > platforms[i].top || this.top - this.cumulativeGrav > platforms[i].top) && 
+                this.withinWidth(platforms[i])) {
                 this.cumulativeGrav = 0;
                 return true;
             }

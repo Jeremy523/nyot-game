@@ -5,6 +5,9 @@ const fs = require('fs');
 // heroku will set an env PORT value
 const PORT = process.env.PORT || 3000;
 
+// set to true to route traffic to maintenance page
+const MAINTENANCE = false;
+
 var app = express();
 
 // partials are blocks of very reusable html/hbs code
@@ -40,7 +43,7 @@ app.use((req, res, next) => {
 if (MAINTENANCE) {
 	//interrupt site and render maintenance page
 	app.use((req, res, next) => {
-		res.render('maintenance.hbs');
+		res.send('<h1 style="text-align:center; padding-top:10%;">Sorry!</h1> <h2 style="text-align:center">Site is down for maintenance. We\'ll be back up soon!</h2>');
 	});
 }
 

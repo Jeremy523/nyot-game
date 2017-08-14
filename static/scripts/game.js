@@ -8,34 +8,48 @@ var MOVE_SPEED = 5;
 var JUMP_STRENGTH = -10;
 var TERMINAL_VELOCITY = 60;
 var GAMEOVER = false;
+var FPS = 50;
+
+// we have 10 images
+var totalResources = 8;
+var numResourcesLoaded = 0;
 
 var platforms = [];
 var facts = [];
 
-var images = {
-	platform1: '/assets/platforms/metalPlatform.png',
-	platform2: '/assets/platforms/metalPlatformWire.png',
-	platform3: '/assets/platforms/metalPlatformWireAlt.png',
-	
-	trampoline: '/assets/platforms/beamBoltsNarrow.png',
-	
-	playerSprites: {
-	    stand: '/assets/player/p1_stand.png',
-	    walk1: '/assets/player/p1_stand.png',
-	    walk2: '/assets/player/p1_stand.png',
-	    walk3: '/assets/player/p1_stand.png',
-	    walk4: '/assets/player/p1_stand.png',
-	    walk5: '/assets/player/p1_stand.png',
-	    walk6: '/assets/player/p1_stand.png',
-	    walk7: '/assets/player/p1_stand.png',
-	    walk8: '/assets/player/p1_stand.png',
-	    walk9: '/assets/player/p1_stand.png',
-	    walk10: '/assets/player/p1_stand.png',
-	    walk11: '/assets/player/p1_stand.png',
-	    jump: '/assets/player/p1_stand.png',
-	    duck: '/assets/player/p1_stand.png'
-	}
-};
+var images = {};
+
+function loadImages() {
+    var imageSources = [
+        "player/p1_standR",
+        "player/p1_standL",
+        "player/p1_jumpR",
+        "player/p1_jumpL",
+        "platforms/trampoline",
+        "platforms/platform1",
+        "platforms/platform2",
+        "platforms/platform3",
+    ];
+    
+    for (var i = 0; i < imageSources.length; i++)
+        loadImage(imageSources[i]);
+}
+
+function loadImage(name) {
+    images[name] = new Image();
+    
+    images[name].onload = function() { 
+        resourceLoaded();
+    }
+    
+    images[name].src = "assets/" + name + ".png";
+}
+
+function resourceLoaded() {
+    numResourcesLoaded++;
+    if (numResourcesLoaded === totalResources) 
+        startGame();
+}
 
 
 // prevents users from just scrolling inside the canvas
@@ -61,7 +75,7 @@ function initializeGameWindow() {
 			this.canvas.height = 2000;
 			this.context = this.canvas.getContext("2d");
 			gameCamera.insertBefore(this.canvas, gameCamera.childNodes[0]);
-			this.interval = setInterval(updateGame, 20);
+			this.interval = setInterval(updateGame, 1000/FPS);
 			window.addEventListener('keydown', function(e) {
 			    // array of booleans representing keycode values and if they are pressed down
 			    gameCanvas.keys = (gameCanvas.keys || []);
@@ -87,8 +101,10 @@ function Platform(width, height, src, xPos, yPos, isTrampoline) {
     this.width = width;
     this.height = height;
     //this.color = color;
-    this.image = new Image(width, height);
-    this.image.src = images[src];
+    //this.image = new Image(width, height);
+    //this.image.src = images[src];
+    this.src = src;
+    this.ctx = gameCanvas.context;
     this.x = xPos;
     this.y = yPos;
     this.right = this.x + this.width;
@@ -107,7 +123,8 @@ function FactObject(xPos, yPos, fact) {
     this.left = this.x;
     this.bottom = this.y + this.height;
     this.top = this.y;
-    this.color = "black";
+    this.color = "gold";
+    this.ctx = gameCanvas.context;
     this.fact = fact;
 }
 
@@ -118,10 +135,22 @@ function initializePrototypes() {
         // this.ctx.fillRect(this.x, this.y, this.width, this.height);
         // standing = 67 196 66 92
         
-        this.image.src = this.sprites.stand;
+        var sprite = "player/";
+        
+        if (this.crashBottom() || this.floored()) {
+            if (this.facingRight)
+                sprite += "p1_standR";
+            else
+                sprite += "p1_standL";;
+        } else {
+            if (this.facingRight)
+                sprite += "p1_jumpR";
+            else
+                sprite += "p1_jumpL";
+        }
         
         this.ctx.drawImage(
-            this.image, 
+            images[sprite], 
             this.x, 
             this.y, 
             this.width, 
@@ -130,9 +159,12 @@ function initializePrototypes() {
     }
     
     Platform.prototype.update = function() {
+        var sprite = "platforms/";
+        
         var ctx = gameCanvas.context;
+        
         ctx.drawImage(
-            this.image, 
+            images[sprite+this.src], 
             this.x, 
             (this.isTrampoline) ? this.y - this.height/2 : this.y, 
             this.width, 
@@ -141,9 +173,8 @@ function initializePrototypes() {
     };
     
     FactObject.prototype.update = function() {
-        var ctx = gameCanvas.context;
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.ctx.fillStyle = this.color;
+        this.ctx.fillRect(this.x, this.y, this.width, this.height);
     };
 }
 
