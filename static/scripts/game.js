@@ -5,10 +5,10 @@ var player; // the player
 var gameCanvas; // the actual element that will contain the game itself
 var GRAVITY = 0.5;
 var MOVE_SPEED = 5;
-var JUMP_STRENGTH = -10;
+var JUMP_STRENGTH = -11;
 var TERMINAL_VELOCITY = 60;
 var GAMEOVER = false;
-var FPS = 50;
+var FPS = 55;
 
 var currentFrame = 0;
 var walkFrames = 11;
@@ -19,6 +19,8 @@ var numResourcesLoaded = 0;
 
 var platforms = [];
 var facts = [];
+var mapBlocks = [];
+var backgroundBlocks = []
 
 var images = {};
 
@@ -34,7 +36,11 @@ function loadImages() {
         "platforms/platform1",
         "platforms/platform2",
         "platforms/platform3",
-        "items/fact"
+        "items/fact",
+        "floors/floor",
+        "floors/upperLevel",
+        "background/colored_land",
+        "background/colored_land_sky"
     ];
     
     totalResources = imageSources.length;
@@ -104,9 +110,9 @@ window.onscroll = function(e){e.preventDefault()};
 function startGame() {
     initializeGameWindow();
     initializePrototypes();
-    //                        width, height, imageObj, xPos, yPos
-    player = new PlayerObject(40, 50, new Image(), 50, fromBottomOfCanvas(0));
     buildMap();
+    //                        width, height, imageObj, xPos, yPos
+    player = new PlayerObject(40, 50, new Image(), 430, fromBottomOfCanvas(0));
 }
 
 function initializeGameWindow() {
@@ -138,12 +144,35 @@ function initializeGameWindow() {
     gameCanvas.start();
 }
 
-// platform object
+
+function BackgroundBlock(width, height, src, xPos, yPos) {
+    this.width = width;
+    this.height = height;
+    this.src = src;
+    this.x = xPos;
+    this.y = yPos;
+    this.right = this.x + this.width;
+    this.left = this.x;
+    this.bottom = this.y + this.height;
+    this.top = this.y;
+}
+
+function MapBlock(width, height, src, xPos, yPos) {
+    this.width = width;
+    this.height = height;
+    this.src = src;
+    this.x = xPos;
+    this.y = yPos;
+    this.right = this.x + this.width;
+    this.left = this.x;
+    this.bottom = this.y + this.height;
+    this.top = this.y;
+}
+
 function Platform(width, height, src, xPos, yPos, isTrampoline) {
     this.width = width;
     this.height = height;
     this.src = src;
-    this.ctx = gameCanvas.context;
     this.x = xPos;
     this.y = yPos;
     this.right = this.x + this.width;
@@ -153,9 +182,9 @@ function Platform(width, height, src, xPos, yPos, isTrampoline) {
     this.isTrampoline = isTrampoline || false;
 }
 
-function FactObject(xPos, yPos, fact) {
-    this.width = 10;
-    this.height = 10;
+function FactObject(fact, width, height, xPos, yPos) {
+    this.width = width;
+    this.height = height;
     this.x = xPos;
     this.y = yPos;
     this.right = this.x + this.width;
@@ -220,13 +249,37 @@ function initializePrototypes() {
         }
     }
     
+    BackgroundBlock.prototype.update = function() {
+      var ctx = gameCanvas.context;
+      
+      ctx.drawImage(
+            images[this.src], 
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        );
+    };
+    
+    MapBlock.prototype.update = function() {
+      var ctx = gameCanvas.context;
+      
+      ctx.drawImage(
+            images[this.src], 
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        );
+    };
+    
     Platform.prototype.update = function() {
-        var sprite = "platforms/";
+        var sprite = "platforms/" + this.src;
         
         var ctx = gameCanvas.context;
         
         ctx.drawImage(
-            images[sprite+this.src], 
+            images[sprite], 
             this.x, 
             (this.isTrampoline) ? this.y - this.height/2 : this.y, 
             this.width, 
@@ -253,6 +306,16 @@ function updateGame() {
     gameCanvas.clear();
     
     if (!GAMEOVER) {
+        // backgroundBlocks
+        for(var i = 0; i < backgroundBlocks.length; i++) {
+        	backgroundBlocks[i].update();
+        }
+        
+        // mapBlocks
+        for(var i = 0; i < mapBlocks.length; i++) {
+        	mapBlocks[i].update();
+        }
+        
         // player
         player.move();
         player.newPos();

@@ -7,8 +7,6 @@ function PlayerObject(width, height, image, xPos, yPos) {
     this.speedX = 0; // displacement X
     this.speedY = 0; // displacement Y
     this.cumulativeGrav = 0; // total gravity buildup
-    //this.image = image;
-    //this.sprites = images.playerSprites;
     this.x = xPos;
     this.y = yPos;
     this.right = this.x + this.width;
@@ -33,7 +31,6 @@ function PlayerObject(width, height, image, xPos, yPos) {
         this.top = this.y;
         this.crashedBottom = this.crashBottom();
         this.grounded = this.floored();
-        //this.crashBottom();
         this.crashTop();
         this.hitBottom();
         this.retrieveFact();
@@ -84,7 +81,7 @@ function PlayerObject(width, height, image, xPos, yPos) {
                 this.cumulativeGrav = 0;
                 
                 if (platforms[i].isTrampoline) {
-                    this.cumulativeGrav = JUMP_STRENGTH * 2;
+                    this.cumulativeGrav = JUMP_STRENGTH * 1.5;
                 } else {
                     return true;
                 }
@@ -157,11 +154,6 @@ function PlayerObject(width, height, image, xPos, yPos) {
     this.move = function() {
         this.speedX = 0;
         this.speedY = 0;
-        
-        /*  Relevant Key Codes
-            S       - 83
-            DOWN    - 40
-        */
     
         if (gameCanvas.keys) {
             if (gameCanvas.keys[65] || gameCanvas.keys[37]) {
@@ -205,7 +197,5 @@ function PlayerObject(width, height, image, xPos, yPos) {
     // runs every time player switches direction
     this.direction = function(dir) {
         this.facingRight = dir;
-        // add changing character images here
-        //console.log(`SWITCHED DIRECTION TO ${ (dir) ? 'RIGHT' : 'LEFT'}`);
     }
 }

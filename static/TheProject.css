@@ -28,11 +28,6 @@ html {
 	height: 100%;
 }
 
-/*h1, h3 {
-	color: white;
-}
-*/
-
 h1 {
 	/*aka bolded*/
 	font-weight: 700px; 
@@ -100,7 +95,7 @@ hr {
 	overflow: hidden;
 	border: none;
     margin: auto;
-    background-color: #70c4a9;
+    background-color: #6b6b6b;
     border-radius: 5px;
     width: 800px; 
     height: 550px;
@@ -129,4 +124,13 @@ canvas {
 
 .moreTextSpacing {
 	line-height: 1.8em;
+}
+
+@media (max-width: 1200px) {
+  body {
+    padding-bottom: 125px;
+	background-size: cover;
+  	background-repeat:no-repeat;
+  	background-attachment:fixed;
+  }
 }
