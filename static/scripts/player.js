@@ -19,6 +19,7 @@ function PlayerObject(width, height, image, xPos, yPos) {
     this.ctx = gameCanvas.context;
     this.facingRight = true;
     this.moving = false;
+    this.grounded;
     
     this.factInventory = [];
     
@@ -30,10 +31,12 @@ function PlayerObject(width, height, image, xPos, yPos) {
         this.left = this.x;
         this.bottom = this.y + this.height;
         this.top = this.y;
-        this.retrieveFact();
-        this.crashBottom();
+        this.crashedBottom = this.crashBottom();
+        this.grounded = this.floored();
+        //this.crashBottom();
         this.crashTop();
         this.hitBottom();
+        this.retrieveFact();
         
         if (this.cumulativeGrav > TERMINAL_VELOCITY)
             this.cumulativeGrav = TERMINAL_VELOCITY;
@@ -47,7 +50,7 @@ function PlayerObject(width, height, image, xPos, yPos) {
     
     // if player is on same vertical level as obstacle
     this.withinHeight = function(obstacle) {
-       return (this.bottom > obstacle.top && this.top < obstacle.bottom && !this.crashBottom());
+       return (this.bottom > obstacle.top && this.top < obstacle.bottom && !this.crashedBottom);
     }
     
     // if player is on same horizontal level as obstacle
@@ -123,9 +126,12 @@ function PlayerObject(width, height, image, xPos, yPos) {
     this.moveRight = function() {
         if (!this.facingRight)
             this.direction(true);
+            
         var isOutsideMap = this.right >= gameCanvas.canvas.width;
+        
         if(!this.crashRight() && !isOutsideMap)
             this.speedX += MOVE_SPEED;
+            
         if(isOutsideMap)
             this.x = gameCanvas.canvas.width - this.width;
     }
@@ -133,15 +139,18 @@ function PlayerObject(width, height, image, xPos, yPos) {
     this.moveLeft = function() {
         if (this.facingRight)
             this.direction(false);
+            
         var isOutsideMap = this.left <= 0;
+        
         if (!this.crashLeft() && !isOutsideMap)
             this.speedX -= MOVE_SPEED;
+            
         if (isOutsideMap)
             this.x = 0;
     }
     
     this.jump = function() {
-        if (this.crashBottom() || this.floored())
+        if (this.crashedBottom || this.grounded)
             this.cumulativeGrav = JUMP_STRENGTH;
     }
     
@@ -155,10 +164,16 @@ function PlayerObject(width, height, image, xPos, yPos) {
         */
     
         if (gameCanvas.keys) {
-            if (gameCanvas.keys[65] || gameCanvas.keys[37]) // A or LEFT
+            if (gameCanvas.keys[65] || gameCanvas.keys[37]) {
+                this.moving = true;
                 this.moveLeft();
-            if (gameCanvas.keys[68] || gameCanvas.keys[39]) // D or RIGHT
+            } else if (gameCanvas.keys[68] || gameCanvas.keys[39]) {
+                this.moving = true;
                 this.moveRight();
+            } else {
+                this.moving = false;
+            }
+                
             if (gameCanvas.keys[87] || gameCanvas.keys[32] || gameCanvas.keys[38]) // W or UP or SPACE 
                 this.jump();
         }

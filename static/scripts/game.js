@@ -10,6 +10,9 @@ var TERMINAL_VELOCITY = 60;
 var GAMEOVER = false;
 var FPS = 50;
 
+var currentFrame = 0;
+var walkFrames = 11;
+
 // we have 10 images
 var totalResources;
 var numResourcesLoaded = 0;
@@ -25,6 +28,8 @@ function loadImages() {
         "player/p1_standL",
         "player/p1_jumpR",
         "player/p1_jumpL",
+        "player/p1_walkR",
+        "player/p1_walkL",
         "platforms/trampoline",
         "platforms/platform1",
         "platforms/platform2",
@@ -54,6 +59,40 @@ function resourceLoaded() {
         startGame();
 }
 
+
+var framesR = [
+    {"x":0,"y":0,"w":67,"h":93},
+    {"x":67,"y":0,"w":67,"h":93},
+    {"x":133,"y":0,"w":67,"h":93},
+    {"x":0,"y":93,"w":67,"h":93},
+    {"x":67,"y":93,"w":67,"h":93},
+    {"x":133,"y":93,"w":71,"h":93},
+    {"x":0,"y":186,"w":71,"h":93},
+    {"x":71,"y":186,"w":71,"h":93},
+    {"x":142,"y":186,"w":70,"h":93},
+    {"x":0,"y":279,"w":71,"h":93},
+    {"x":71,"y":279,"w":67,"h":93}
+];
+
+var framesL = [];
+
+(function populateFramesL () {
+    for(var i = 0; i < framesR.length; i++) {
+        var frame = clone(framesR[i]);
+        frame["x"] = 256 - frame["x"] - frame["w"];
+        framesL.push(frame);
+    }
+}());
+
+// clones object
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+}
 
 // prevents users from just scrolling inside the canvas
 if(window.addEventListener) { // Firefox only
@@ -132,26 +171,53 @@ function initializePrototypes() {
     PlayerObject.prototype.update = function() {
         
         var sprite = "player/";
+        var walking = false;
         
-        if (this.crashBottom() || this.floored()) {
-            if (this.facingRight)
-                sprite += "p1_standR";
-            else
-                sprite += "p1_standL";;
+        if (this.crashedBottom || this.grounded) {
+            if (this.moving) {
+                walking = true;
+                sprite += (this.facingRight) ? "p1_walkR" : "p1_walkL";
+            }
+            else {
+                sprite += (this.facingRight) ? "p1_standR" : "p1_standL";
+            }
         } else {
-            if (this.facingRight)
-                sprite += "p1_jumpR";
-            else
-                sprite += "p1_jumpL";
+            sprite += (this.facingRight) ? "p1_jumpR" : "p1_jumpL";
         }
         
-        this.ctx.drawImage(
-            images[sprite], 
-            this.x, 
-            this.y, 
-            this.width, 
-            this.height
-        );
+        
+        if (walking) {
+            var frameSet = (this.facingRight) ? framesR : framesL;
+            
+            if (currentFrame === walkFrames) {
+                currentFrame = 0;
+            }
+            
+            this.ctx.drawImage(
+                images[sprite], 
+                frameSet[currentFrame]["x"], 
+                frameSet[currentFrame]["y"], 
+                frameSet[currentFrame]["w"], 
+                frameSet[currentFrame]["h"],
+                this.x,
+                this.y,
+                this.width,
+                this.height
+            );
+            
+            currentFrame++;
+            
+        } else {
+            currentFrame = 0;
+            
+            this.ctx.drawImage(
+                images[sprite], 
+                this.x, 
+                this.y, 
+                this.width, 
+                this.height
+            );
+        }
     }
     
     Platform.prototype.update = function() {
