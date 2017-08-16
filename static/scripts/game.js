@@ -6,6 +6,7 @@ var gameCanvas; // the actual element that will contain the game itself
 var GRAVITY = 0.5;
 var MOVE_SPEED = 5;
 var JUMP_STRENGTH = -11;
+var TRAMPOLINE_STRENGTH = JUMP_STRENGTH * 1.4;
 var TERMINAL_VELOCITY = 60;
 var GAMEOVER = false;
 var FPS = 55;
@@ -32,13 +33,21 @@ function loadImages() {
         "player/p1_jumpL",
         "player/p1_walkR",
         "player/p1_walkL",
+        
         "platforms/trampoline",
         "platforms/platform1",
         "platforms/platform2",
         "platforms/platform3",
+        
         "items/fact",
+        
         "floors/floor",
         "floors/upperLevel",
+        "floors/clear",
+        "floors/clear_w_windows",
+        "floors/clear_w_signs",
+        "floors/clear_w_floor",
+        
         "background/colored_land",
         "background/colored_land_sky"
     ];

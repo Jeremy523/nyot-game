@@ -1,7 +1,6 @@
 /* global platforms Platform facts FactObject mapBlocks MapBlock gameCanvas images backgroundBlocks BackgroundBlock */
 
 function buildMap() {
-    // LEVEL 1
     
     // acts as a placeholder because a reference to mapChunks is needed in creating mapBlocks
     var mapBlockOptions = function(src, y) {
@@ -16,6 +15,7 @@ function buildMap() {
     var mapChunks = [
         new mapBlockOptions("floors/floor", -30),
         new mapBlockOptions("floors/upperLevel"),
+        new mapBlockOptions("floors/clear_w_windows"),
     ];
     
     (function populateMapChunks() {
@@ -31,9 +31,13 @@ function buildMap() {
     var FLOOR_HEIGHT = 205;
     
     var mapPlatforms = [
-        createTrampoline(50, 10, 850, 0),
-        createPlatform1(600, 35, 200, FLOOR_HEIGHT),
-        createFloorWithGaps(35, 1, 70, "platform1", 312)
+        createTrampoline(50, 10, 850, 15),
+        //createPlatform1(600, 35, 200, FLOOR_HEIGHT),
+        createFloorWithGaps(35, 3, 0, "platform1", FLOOR_HEIGHT),
+        createFloorWithGaps(35, 1, 70, "platform1", 312),
+        createPlatform2(50, 15, 840, FLOOR_HEIGHT*2),
+        createTrampoline(50, 10, 600, 495),
+        createFloorWithGaps(35, 2, 100, "platform1", 660),
     ];
     
     var mapFacts = [

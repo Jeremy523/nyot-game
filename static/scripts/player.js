@@ -1,4 +1,4 @@
-/* global gameCanvas gameCamera GRAVITY MOVE_SPEED JUMP_STRENGTH platforms facts TERMINAL_VELOCITY images */
+/* global gameCanvas gameCamera GRAVITY MOVE_SPEED JUMP_STRENGTH TRAMPOLINE_STRENGTH platforms facts TERMINAL_VELOCITY images */
 
 // PLAYER CLASS
 function PlayerObject(width, height, image, xPos, yPos) {
@@ -7,6 +7,7 @@ function PlayerObject(width, height, image, xPos, yPos) {
     this.speedX = 0; // displacement X
     this.speedY = 0; // displacement Y
     this.cumulativeGrav = 0; // total gravity buildup
+    
     this.x = xPos;
     this.y = yPos;
     this.right = this.x + this.width;
@@ -81,16 +82,14 @@ function PlayerObject(width, height, image, xPos, yPos) {
                 this.cumulativeGrav = 0;
                 
                 if (platforms[i].isTrampoline) {
-                    this.cumulativeGrav = JUMP_STRENGTH * 1.5;
-                } else {
-                    return true;
-                }
+                    this.cumulativeGrav = TRAMPOLINE_STRENGTH;
+                } else return true;
                 
                 
             }
             
-            
         }
+        
         return false;
     }
     
@@ -100,6 +99,7 @@ function PlayerObject(width, height, image, xPos, yPos) {
             if (this.left <= platforms[i].right && this.left >= platforms[i].left && this.withinHeight(platforms[i]))
                 return true;
         }
+        
         return false;
     }
     
@@ -109,6 +109,7 @@ function PlayerObject(width, height, image, xPos, yPos) {
             if (this.right >= platforms[i].left && this.right <= platforms[i].right && this.withinHeight(platforms[i]))
                 return true;
         }
+        
         return false;
     }
     
