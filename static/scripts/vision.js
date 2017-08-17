@@ -5,4 +5,3 @@ $(document).ready(function() {
     $(".fadeIn").fadeIn("slow");
     $(".fadeInMore").fadeIn("3000");
 });
-

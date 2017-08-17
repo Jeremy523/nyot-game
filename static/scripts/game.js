@@ -147,10 +147,12 @@ function initializeGameWindow() {
 			this.interval = setInterval(updateGame, 1000/FPS);
 			window.addEventListener('keydown', function(e) {
 			    // array of booleans representing keycode values and if they are pressed down
+			    e.preventDefault();
 			    gameCanvas.keys = (gameCanvas.keys || []);
 			    gameCanvas.keys[e.keyCode] = true;
 			})
 			window.addEventListener('keyup', function(e) {
+			    e.preventDefault();
 			    gameCanvas.keys[e.keyCode] = false;
 			})
 		},
@@ -238,7 +240,7 @@ function promptLoseGame() {
             },
             no: {
                 label: "No",
-                className: 'btn-warning pull-right',
+                className: 'btn-danger pull-right',
                 callback: function() {
                     document.location.href = "/";
                 }

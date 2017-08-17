@@ -17,10 +17,10 @@
 	</script> 
 	
 </head>
-<body class="GameBackground" onload="initialize();">
+<body class="GameBackground" onload="initialize()">
 
 	{{> header}}
-	
+	<div class="container">
     <div style="visibility:hidden">
       <audio autoplay loop>
           <source src="https://audio.clyp.it/ssxypm3f.mp3?Expires=1502996903&Signature=qsvdDnTLcN5qT0M~ARXET3jStzJ7gVrvWahdEySpbV4S2dHpXnd~TYUVGcUDbz0AFDQIRU3du4yr2q~TsMh4IAr-q2cLK0C-fgAHuZW4UMLLbMvLnOAkKWdngDK-yFoMWfi97254rnaxUN1J7OjMU9KeKW57o6f37~Hibts5UXQ_&Key-Pair-Id=APKAJ4AMQB3XYIRCZ5PA">
@@ -30,13 +30,12 @@
 	<div class="container gameContainer">
  		<h4> The Proof of Concept </h4>
 		<div id="gameCamera"></div>
-		<p>
 			<h3>Oh no! You're late for work! Get to the Gem before time runs out!</h3>
 			<progress value="" max="" id="progressBar" class="center-block"></progress>
 			<h4>Controls: </h4>
 			<img class="center-block" src="/controls.png">
 			<h5>TIP: Press "S" or &#8595 to pull the lever!</h5> 
 	</div>
-	
+	</div>
 </body>
 </html>
