@@ -176,7 +176,7 @@ function initializeGameWindow() {
         GAMEOVER = true;
         gameCanvas.stop();
       }
-    }, 1000);
+    }, 500);
 }
 
 function promptDifficulty() {
@@ -186,9 +186,9 @@ function promptDifficulty() {
         buttons: {
             easy: {
                 label: "<b>Easy</b>",
-                className: 'btn-success pull-left',
+                className: 'btn-success pull-left easy-btn',
                 callback: function() {
-                    TIME_IN_SECONDS = 30;
+                    TIME_IN_SECONDS = 30*2;
                     showScreen();
                     loadImages();
                 }
@@ -197,7 +197,7 @@ function promptDifficulty() {
                 label: "<b>Medium</b>",
                 className: 'btn-warning medium-btn',
                 callback: function() {
-                    TIME_IN_SECONDS = 20;
+                    TIME_IN_SECONDS = 20*2;
                     showScreen();
                     loadImages();
                 }
@@ -206,16 +206,16 @@ function promptDifficulty() {
                 label: "<b>Hard</b>",
                 className: 'btn-danger hard-btn',
                 callback: function() {
-                    TIME_IN_SECONDS = 12;
+                    TIME_IN_SECONDS = 12*2;
                     showScreen();
                     loadImages();
                 }
             },
             insane: {
                 label: "<b>Insane</b>",
-                className: "btn-primary pull-right",
+                className: "btn-primary pull-right insane-btn",
                 callback: function() {
-                    TIME_IN_SECONDS = 10;
+                    TIME_IN_SECONDS = 10.5*2;
                     showScreen();
                     loadImages();
                 }
