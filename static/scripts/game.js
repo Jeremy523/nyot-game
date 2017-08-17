@@ -215,7 +215,7 @@ function promptDifficulty() {
                 label: "<b>Insane</b>",
                 className: "btn-primary pull-right insane-btn",
                 callback: function() {
-                    TIME_IN_SECONDS = 10.5*2;
+                    TIME_IN_SECONDS = 10*2;
                     showScreen();
                     loadImages();
                 }
