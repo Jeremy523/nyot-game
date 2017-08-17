@@ -1,15 +1,18 @@
-/* global gameCamera PlayerObject buildMap fromBottomOfCanvas */
+/* global gameCamera PlayerObject buildMap fromBottomOfCanvas TIME_IN_SECONDS */
 
 // GLOBAL VARIABLES
 var player; // the player
+var gameCamera;
 var gameCanvas; // the actual element that will contain the game itself
+var GAMEOVER = false;
 var GRAVITY = 0.5;
 var MOVE_SPEED = 5;
 var JUMP_STRENGTH = -11;
 var TRAMPOLINE_STRENGTH = JUMP_STRENGTH * 1.4;
 var TERMINAL_VELOCITY = 60;
-var GAMEOVER = false;
 var FPS = 55;
+
+var COUNTDOWN;
 
 var currentFrame = 0;
 var walkFrames = 11;
@@ -20,6 +23,7 @@ var numResourcesLoaded = 0;
 
 var platforms = [];
 var facts = [];
+var levers = [];
 var mapBlocks = [];
 var backgroundBlocks = []
 
@@ -41,6 +45,9 @@ function loadImages() {
         
         "items/fact",
         
+        "switches/laserSwitchGreenOff",
+        "switches/laserSwitchGreenOn",
+        
         "floors/floor",
         "floors/upperLevel",
         "floors/clear",
@@ -49,6 +56,7 @@ function loadImages() {
         "floors/clear_w_floor",
         
         "background/colored_land",
+        "background/desert_blue",
         "background/colored_land_sky"
     ];
     
@@ -117,12 +125,16 @@ window.onscroll = function(e){e.preventDefault()};
 
 
 function startGame() {
+    gameCamera = document.getElementById("gameCamera");
+    
     initializeGameWindow();
     initializePrototypes();
     buildMap();
     //                        width, height, imageObj, xPos, yPos
     player = new PlayerObject(40, 50, new Image(), 430, fromBottomOfCanvas(0));
 }
+
+//function 
 
 function initializeGameWindow() {
     gameCanvas = {
@@ -146,11 +158,120 @@ function initializeGameWindow() {
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		},
 		stop : function() {
+		    promptLoseGame();
 		    clearInterval(this.interval);
 		}
 	}
 	
     gameCanvas.start();
+    
+    var progressBar = document.getElementById("progressBar");
+    progressBar.setAttribute("max", TIME_IN_SECONDS);
+    progressBar.setAttribute("value", TIME_IN_SECONDS);
+    
+    COUNTDOWN = setInterval(function(){
+    progressBar.value = --TIME_IN_SECONDS;
+      if(TIME_IN_SECONDS <= 0) {
+        clearInterval(COUNTDOWN);
+        GAMEOVER = true;
+        gameCanvas.stop();
+      }
+    }, 1000);
+}
+
+function promptDifficulty() {
+    var dialog = bootbox.dialog({
+        title: '<span style="color:black">Choose a difficulty!<span>',
+        message: '<p style="color:black; text-align:center">This will affect how much time you will have to beat the game.</p>',
+        buttons: {
+            easy: {
+                label: "<b>Easy</b>",
+                className: 'btn-success pull-left',
+                callback: function() {
+                    TIME_IN_SECONDS = 30;
+                    showScreen();
+                    loadImages();
+                }
+            },
+            medium: {
+                label: "<b>Medium</b>",
+                className: 'btn-warning medium-btn',
+                callback: function() {
+                    TIME_IN_SECONDS = 20;
+                    showScreen();
+                    loadImages();
+                }
+            },
+            hard: {
+                label: "<b>Hard</b>",
+                className: 'btn-danger hard-btn',
+                callback: function() {
+                    TIME_IN_SECONDS = 12;
+                    showScreen();
+                    loadImages();
+                }
+            },
+            insane: {
+                label: "<b>Insane</b>",
+                className: "btn-primary pull-right",
+                callback: function() {
+                    TIME_IN_SECONDS = 10;
+                    showScreen();
+                    loadImages();
+                }
+            }
+        }
+    });
+}
+
+function promptLoseGame() {
+    var dialog = bootbox.dialog({
+        title: '<span style="color:black">Oh no!<span>',
+        message: '<p style="color:black; text-align:center">You didn\'t make it in time. Would you like to try again?</p>',
+        buttons: {
+            yes: {
+                label: "Yes!",
+                className: 'btn-success pull-left',
+                callback: function() {
+                    document.location.reload();
+                }
+            },
+            no: {
+                label: "No",
+                className: 'btn-warning pull-right',
+                callback: function() {
+                    document.location.href = "/";
+                }
+            }
+        }
+    });
+}
+
+function promptWinGame() {
+    var dialog = bootbox.dialog({
+        title: '<span style="color:black">You did it!<span>',
+        message: '<p style="color:black; text-align:center">What\'s this? You unlocked a secret page!</p>',
+        buttons: {
+            cont: {
+                label: "Take me to it!",
+                className: 'btn-success pull-left',
+                callback: function() {
+                    document.location.href="/vision";
+                }
+            },
+            retry: {
+                label: "I want to play again instead",
+                className: 'btn-danger pull-right',
+                callback: function() {
+                    document.location.reload();
+                }
+            }
+        }
+    });
+}
+
+function showScreen() {
+    document.getElementsByClassName("gameContainer")[0].style = "visibility: visible";
 }
 
 
@@ -184,6 +305,8 @@ function Platform(width, height, src, xPos, yPos, isTrampoline) {
     this.src = src;
     this.x = xPos;
     this.y = yPos;
+    this.initX = xPos;
+    this.initY = yPos;
     this.right = this.x + this.width;
     this.left = this.x;
     this.bottom = this.y + this.height;
@@ -191,9 +314,28 @@ function Platform(width, height, src, xPos, yPos, isTrampoline) {
     this.isTrampoline = isTrampoline || false;
 }
 
-function FactObject(fact, width, height, xPos, yPos) {
-    this.width = width;
-    this.height = height;
+function Lever(xPos, yPos, platform, fn, options) {
+    this.width = 10;
+    this.height = 10;
+    this.x = xPos;
+    this.y = yPos;
+    this.right = this.x + this.width;
+    this.left = this.x;
+    this.bottom = this.y + this.height;
+    this.top = this.y;
+    this.inRange = false;
+    this.activated = false;
+    this.done = false;
+    this.reset = true;
+    this.ready = true;
+    this.linkedPlatform = platform;
+    this.fn = fn;
+    this.options = options;
+}
+
+function FactObject(fact, xPos, yPos) {
+    this.width = 15;
+    this.height = 15;
     this.x = xPos;
     this.y = yPos;
     this.right = this.x + this.width;
@@ -207,6 +349,8 @@ function FactObject(fact, width, height, xPos, yPos) {
 // sets up the methods in the object's parent, so each object doesn't need its own copy of it
 function initializePrototypes() {
     PlayerObject.prototype.update = function() {
+        this.move();
+        this.newPos();
         
         var sprite = "player/";
         var walking = false;
@@ -283,6 +427,11 @@ function initializePrototypes() {
     };
     
     Platform.prototype.update = function() {
+        this.right = this.x + this.width;
+        this.left = this.x;
+        this.bottom = this.y + this.height;
+        this.top = this.y;
+        
         var sprite = "platforms/" + this.src;
         
         var ctx = gameCanvas.context;
@@ -296,7 +445,49 @@ function initializePrototypes() {
         );
     };
     
+    Lever.prototype.toggle = function() {
+        this.activated = !this.activated;
+    }
+    
+    Lever.prototype.checkAction = function() {
+        if (this.activated && !this.done && this.reset)
+            this.fn.move(this, this.linkedPlatform, this.options);
+        if(!this.activated && this.done && !this.reset)
+            this.fn.resetAction(this, this.linkedPlatform);
+    }
+    
+    Lever.prototype.checkForPlayer = function() {
+                                // check within height                                                      // check within width
+        if ( (this.bottom > player.top && this.top < player.bottom && !this.crashedBottom) && (this.right > player.left && this.left < player.right) ) {
+            this.inRange = true;
+        } else this.inRange = false;
+        
+    }
+    
+    Lever.prototype.update = function() {
+        this.checkForPlayer();
+        
+        var sprite = "switches/";
+        
+        sprite += (this.activated) ? "laserSwitchGreenOn" : "laserSwitchGreenOff";
+        
+        var ctx = gameCanvas.context;
+        
+        ctx.drawImage(
+            images[sprite], 
+            this.x - this.width*1.5, 
+            this.y - this.height*1.5, 
+            this.width*4, 
+            this.height*4
+        );
+    }
+    
     FactObject.prototype.update = function() {
+        this.right = this.x + this.width;
+        this.left = this.x;
+        this.bottom = this.y + this.height;
+        this.top = this.y;
+        
         var sprite = "items/fact";
         
         var ctx = gameCanvas.context;
@@ -326,13 +517,17 @@ function updateGame() {
         }
         
         // player
-        player.move();
-        player.newPos();
         player.update();
         
         // platforms
         for(var i = 0; i < platforms.length; i++) {
         	platforms[i].update();
+        }
+        
+        // levers
+        for(var k = 0; k < levers.length; k++) {
+            levers[k].update();
+            levers[k].checkAction();
         }
         
         // facts

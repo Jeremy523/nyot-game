@@ -10,28 +10,32 @@
 	
 	<script>
 		function initialize() {
-	    
-			var gameCamera = document.getElementById("gameCamera");
-			
-			loadImages();
+			var TIME_IN_SECONDS;
+			promptDifficulty();
 	  	
 		}
-	</script>
+	</script> 
 	
 </head>
 <body class="GameBackground" onload="initialize();">
 
 	{{> header}}
 	
-    <div style="visibility:hidden">
+    <div style="visibility:hidden fadeIn">
       <audio autoplay loop>
-          <source src="/audio/music.ogg">
+          <source src="https://audio.clyp.it/ssxypm3f.mp3?Expires=1502911412&Signature=spCHSBb5uuVdsTDsv8nL17pt5tcyp0yGWOB9cPdGyPbhNxfNd7UEZnogR0lJMChtlHCDuesl7sWe-9i9JeufykjKM1Q-R1B~J-OpiAODcI-AXW0pp-7THH8zUu0uW0jMhedjYqtn1HlrOtQjqzcYirmb~9iAnrbElsQmlBjbZDs_&Key-Pair-Id=APKAJ4AMQB3XYIRCZ5PA">
       </audio> 
   </div>
   
 	<div class="container gameContainer">
- 		<h4> The Game </h4>
+ 		<h4> The Proof of Concept </h4>
 		<div id="gameCamera"></div>
+		<p>
+			<h3>Oh no! You're late for work! Get to the Gem before time runs out!</h3>
+			<progress value="" max="" id="progressBar" class="center-block"></progress>
+			<h4>Controls: </h4>
+			<img class="center-block" src="/controls.png">
+			<h5>TIP: Press "S" or &#8595 to pull the lever!</h5> 
 	</div>
 	
 </body>

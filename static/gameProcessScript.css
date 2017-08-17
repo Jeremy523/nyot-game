@@ -1,0 +1,8 @@
+@media (max-width: 2500px) {
+  body {
+    padding-bottom: 125px;
+	  background-size: cover;
+  	background-repeat:no-repeat;
+  	background-attachment:fixed;
+  }
+}

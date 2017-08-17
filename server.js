@@ -19,10 +19,6 @@ hbs.registerHelper('getCurrentYear', () => {
 	return new Date().getFullYear();
 });
 
-hbs.registerHelper('screamIt', (text) => {
-	return text.toUpperCase();
-});
-
 // set templating engine to handlebars
 app.set('view engine', 'hbs');
 
@@ -47,6 +43,8 @@ if (MAINTENANCE) {
 	});
 }
 
+var GAME = {condition: false};
+
 // using a static directory instead of handlers
 app.use(express.static(__dirname + '/static'));
 
@@ -54,7 +52,10 @@ app.use(express.static(__dirname + '/static'));
 app.get('/', (req, res) => {
 	res.render('home.hbs', {
 		aboutActive: '',
-		gameInfoActive: ''
+		gameProcessActive: '',
+		gameInfoActive: '',
+		visionActive: '',
+		GAME: encodeURIComponent(JSON.stringify(GAME))
 	});
 });
 
@@ -62,7 +63,9 @@ app.get('/about', (req, res) => {
 	res.render('about.hbs', {
 		aboutActive: 'active',
 		gameInfoActive: '',
-		gameProcessActive: ''
+		gameProcessActive: '',
+		visionActive: '',
+		GAME: encodeURIComponent(JSON.stringify(GAME))
 	});
 });
 
@@ -70,7 +73,9 @@ app.get('/game', (req, res) => {
 	res.render('game.hbs', {
 		aboutActive: '',
 		gameInfoActive: '',
-		gameProcessActive: ''
+		gameProcessActive: '',
+		visionActive: '',
+		GAME: encodeURIComponent(JSON.stringify(GAME))
 	});
 });
 
@@ -78,7 +83,9 @@ app.get('/gameInfo', (req, res) => {
 	res.render('gameInfo.hbs', {
 		aboutActive: '',
 		gameInfoActive: 'active',
-		gameProcessActive: ''
+		gameProcessActive: '',
+		visionActive: '',
+		GAME: encodeURIComponent(JSON.stringify(GAME))
 	});
 });
 
@@ -86,7 +93,19 @@ app.get('/gameProcess', (req, res) => {
 	res.render('gameProcess.hbs', {
 		aboutActive: '',
 		gameInfoActive: '',
-		gameProcessActive: 'active'
+		gameProcessActive: 'active',
+		visionActive: '',
+		GAME: encodeURIComponent(JSON.stringify(GAME))
+	});
+});
+
+app.get('/vision', (req, res) => {
+	res.render('vision.hbs', {
+		aboutActive: '',
+		gameInfoActive: '',
+		gameProcessActive: '',
+		visionActive: 'active',
+		GAME: encodeURIComponent(JSON.stringify(GAME))
 	});
 });
 

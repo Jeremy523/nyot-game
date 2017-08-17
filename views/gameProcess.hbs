@@ -3,12 +3,14 @@
 <head>
 	<title> Game Info</title>
 	{{> scripts}}
+  <link rel="stylesheet" type="text/css" href="/gameProcessScript.css">
+
 </head>
 <body>
 
 {{> header}}
 
-<div class="container">
+<div class="container fadeIn">
   <div class="row">
     <div class="col-xs-12 col-sm-6"> 
       <h2> Design </h2>
@@ -23,28 +25,38 @@
       <h4 class="toLeft"> Messiah </h4>
         <hr class="leftLine">
         <p class="toLeft"> 
-        The development of the map is what makes or breaks a game because without good map design there is not a good game. The placement of all the platforms became the most important piece to make an engaging experience for the player. The placements of the buttons and levers make you think while the game may get progressively harder while you make your way to your goal. I hope you enjoy platforming on a map created to entertain bring surprises to whoever plays!
+        The development of the map is what makes or breaks a game because without good map design there is not a good game. The placement of all the platforms became the most important piece to make an engaging experience for the player. The placements of the buttons and levers make you think while the game may get progressively harder. I hope you enjoy platforming on a map created to entertain and bring surprises to whoever plays!
 
         </p>
     </div>
+
     
-    <div class="col-xs-12 col-sm-6"> 
+
+    <div class="col-xs-12 col-sm-6 fadeIn"> 
       <h2> Development </h2>
-      <h4 class="toRight"> Kevin </h4>
-        <hr class="rightLine">
-        <p class="toRight"> 
+      <h4 class="toLeft"> Kevin </h4>
+        <hr class="leftLine">
+        <p class="toLeft"> 
           I initially worked along with Jeremy to create the physics of the platformer, which included gravity, the player, platforms, and the interactions between various objects such as collisions. With experience with Java in college and some prior experience with the programming language,
           it was not too difficult for me to understand the concepts to get started and code in javaScript.
         </p>
-        <p class="toRight">
-          Once all of this was done, I turned my attention to making a platform for the game to be shared with, which ultimately became this website.
-          Using Bootstrap and a little bit of jQuery, I designed a page where we could share our project and a little bit about ourselves. I took the pictures of the portraits and edited them to fit the style of the page and added a bit of jQuery to make the page responsive to specific window sizes.
+        <p class="toLeft" style="padding-bottom: 40px;">
+          Once all of this was done, I turned my attention to designing a way for the game to be shared with, which ultimately became this website.
+          Using Bootstrap, I designed a page where we could share our project and a little bit about ourselves. I took the pictures of the portraits and edited them to fit the style of the page and added a bit of jQuery to make the page responsive to specific window sizes.
         </p>
         
 
-      <h4 class="toRight"> Jeremy </h4>
-        <hr class="rightLine">
-        <p class="toRight"> Nulla sed malesuada purus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean mattis posuere sem sed euismod. Fusce malesuada ac tellus a dignissim. Praesent sollicitudin gravida fringilla. Morbi lobortis tempor tempus. Integer consectetur eu quam quis tristique. Vestibulum dictum id metus eu molestie.</p>
+      <h4 class="toLeft"> Jeremy </h4>
+        <hr class="leftLine">
+        <p class="toLeft">
+          From the beginning of our development process, my focus was solely on the backend of the web app and the mechanics of our game. At the start I worked on the core game mechanics with Kevin. This work consisted of basic player movement, jumping, and collision detection with platforms. 
+        </p>
+        <p class="toLeft">
+          Following this, Kevin shifted focus onto designing the site and I continued work with adding things such as character animation, level scrolling, trampoline platforms, elevator platforms, and the foundation for building levels into the game. Our game and the engine it runs on were created by us using pure HTML5 canvas and JavaScript.
+        </p>
+        <p class="toLeft">
+          Aside from game mechanics, I also created our Node.js server, used Express to create our web app, and used Handlebars as our templating engine, bringing together our frontend and backend. After all was said and done, I pushed our web app to GitHub and deployed it to Heroku so we can share it with everyone!
+        </p>
     </div>
   </div>
 

@@ -1,4 +1,4 @@
-/* global gameCanvas gameCamera GRAVITY MOVE_SPEED JUMP_STRENGTH TRAMPOLINE_STRENGTH platforms facts TERMINAL_VELOCITY images */
+/* global gameCanvas gameCamera GRAVITY MOVE_SPEED JUMP_STRENGTH TRAMPOLINE_STRENGTH platforms facts TERMINAL_VELOCITY images levers */
 
 // PLAYER CLASS
 function PlayerObject(width, height, image, xPos, yPos) {
@@ -151,7 +151,7 @@ function PlayerObject(width, height, image, xPos, yPos) {
         if (this.crashedBottom || this.grounded)
             this.cumulativeGrav = JUMP_STRENGTH;
     }
-    
+
     this.move = function() {
         this.speedX = 0;
         this.speedY = 0;
@@ -169,6 +169,9 @@ function PlayerObject(width, height, image, xPos, yPos) {
                 
             if (gameCanvas.keys[87] || gameCanvas.keys[32] || gameCanvas.keys[38]) // W or UP or SPACE 
                 this.jump();
+            
+            if (gameCanvas.keys[83] || gameCanvas.keys[40])
+                this.pullLever();
         }
     }
     
@@ -177,7 +180,18 @@ function PlayerObject(width, height, image, xPos, yPos) {
             if ((this.bottom > facts[i].top && this.top < facts[i].bottom) && this.withinWidth(facts[i])) {
                 console.log("FACT: " + facts[i].fact);
                 this.factInventory.push(facts.splice(i, 1));
+                clearInterval(COUNTDOWN);
+                promptWinGame();
                 return;
+            }
+        }
+    }
+    
+    this.pullLever = function() {
+        for (var i = 0; i < levers.length; i++) {
+            if (levers[i].inRange && levers[i].ready) {
+                levers[i].toggle();
+                break;
             }
         }
     }
